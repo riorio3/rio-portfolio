@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0f0f0f;
-  --color-text: #e5e5e5;
-  --color-muted: #a3a3a3;
+  --color-bg: #000000;
+  --color-text: #ffffff;
+  --color-muted: #888888;
   --color-accent: #60a5fa;
-  --color-gold: #a67c2e;
-  --color-gold-light: #c49a45;
-  --color-gold-dark: #6b4f1a;
+  --color-gold: #3b82f6;
+  --color-gold-light: #60a5fa;
+  --color-gold-dark: #1d4ed8;
   --color-glass: rgba(255, 255, 255, 0.06);
   --color-glass-border: rgba(255, 255, 255, 0.12);
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -64,7 +64,7 @@
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(184, 134, 11, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   transform: translate(-50%, -50%);
