@@ -40,9 +40,14 @@ import '../styles/global.css';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen antialiased">
+  <body class="min-h-screen antialiased overflow-x-hidden">
+    <!-- Cursor glow -->
+    <div id="cursor-glow"></div>
+
     <slot />
+
     <script>
+      // --- Scroll fade observer ---
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -55,6 +60,67 @@ import '../styles/global.css';
         { threshold: 0.1 }
       );
       document.querySelectorAll('.scroll-fade').forEach((el) => observer.observe(el));
+
+      // --- Cursor glow that follows mouse ---
+      const glow = document.getElementById('cursor-glow');
+      let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateGlow() {
+        glowX += (mouseX - glowX) * 0.15;
+        glowY += (mouseY - glowY) * 0.15;
+        if (glow) {
+          glow.style.left = glowX + 'px';
+          glow.style.top = glowY + 'px';
+        }
+        requestAnimationFrame(animateGlow);
+      }
+      animateGlow();
+
+      // --- 3D tilt + spotlight on glass panels ---
+      document.querySelectorAll('[data-tilt]').forEach((card) => {
+        const spotlight = card.querySelector('.panel-spotlight') as HTMLElement;
+
+        card.addEventListener('mousemove', (e: Event) => {
+          const evt = e as MouseEvent;
+          const rect = (card as HTMLElement).getBoundingClientRect();
+          const x = evt.clientX - rect.left;
+          const y = evt.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -6;
+          const rotateY = ((x - centerX) / centerX) * 6;
+
+          (card as HTMLElement).style.transform =
+            `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+          if (spotlight) {
+            spotlight.style.background =
+              `radial-gradient(circle at ${x}px ${y}px, rgba(184,134,11,0.08) 0%, transparent 60%)`;
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          (card as HTMLElement).style.transform = '';
+          if (spotlight) {
+            spotlight.style.background = '';
+          }
+        });
+      });
+
+      // --- Parallax on hero ---
+      const hero = document.querySelector('[data-parallax]') as HTMLElement;
+      if (hero) {
+        window.addEventListener('scroll', () => {
+          const scrolled = window.scrollY;
+          hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+          hero.style.opacity = `${1 - scrolled / 600}`;
+        }, { passive: true });
+      }
     </script>
   </body>
 </html>

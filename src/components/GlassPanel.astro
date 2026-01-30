@@ -17,8 +17,9 @@ const sizeClasses = {
 };
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class:list={['glass-panel group', sizeClasses[size]]}>
+<a href={href} target="_blank" rel="noopener noreferrer" class:list={['glass-panel group', sizeClasses[size]]} data-tilt>
   <div class="panel-glow"></div>
+  <div class="panel-spotlight"></div>
   <div class="panel-content">
     <div class="panel-binary">{binary}</div>
     <h3 class="panel-title">{title}</h3>
@@ -42,18 +43,34 @@ const sizeClasses = {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.15s ease-out, box-shadow 0.4s ease, border-color 0.4s ease;
+    transform-style: preserve-3d;
+    perspective: 800px;
     text-decoration: none;
     display: block;
     min-height: 200px;
+    will-change: transform;
   }
 
   .glass-panel:hover {
     border-color: rgba(184, 134, 11, 0.2);
-    transform: translateY(-4px) scale(1.01);
     box-shadow:
       0 20px 40px rgba(0, 0, 0, 0.3),
       0 0 30px rgba(184, 134, 11, 0.06);
+  }
+
+  .panel-spotlight {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 1.25rem;
+  }
+
+  .glass-panel:hover .panel-spotlight {
+    opacity: 1;
   }
 
   .panel-glow {
