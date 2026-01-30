@@ -4,7 +4,7 @@
 <div class="nav-shield"></div>
 <div class="fixed top-0 left-0 right-0 z-[9999] flex justify-center pt-5 px-4" style="isolation: isolate;">
   <nav class="nav-bar">
-    <a href="/" class="nav-logo-wrapper">
+    <a href="#" class="nav-logo-wrapper" id="logo-link">
       <span class="nav-logo-border"></span>
       <span class="nav-logo-glow"></span>
       <span class="nav-logo-content">RZ</span>
@@ -185,3 +185,10 @@
     transform: scale(1.05);
   }
 </style>
+
+<script>
+  document.getElementById('logo-link')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
