@@ -6,6 +6,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import Footer from '../components/Footer.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const allTags = [...new Set(projects.flatMap(p => p.data.tags))].sort();
 ---
 
 <BaseLayout title="Projects — Rio Zelaya">
@@ -13,16 +14,53 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
   <main class="pt-32 pb-20 px-6 max-w-5xl mx-auto">
     <h1 class="text-4xl font-bold text-white fade-in">Projects</h1>
     <p class="mt-4 text-[--color-muted] fade-in fade-in-delay-1">Things I've built.</p>
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 fade-in fade-in-delay-2">
+
+    <div class="mt-8 flex flex-wrap gap-2 fade-in fade-in-delay-2">
+      <button data-tag="all" class="tag-filter text-xs px-3 py-1.5 rounded-full glass text-[--color-accent] border-[--color-accent]/30 cursor-pointer transition-colors">All</button>
+      {allTags.map(tag => (
+        <button data-tag={tag} class="tag-filter text-xs px-3 py-1.5 rounded-full glass text-[--color-muted] cursor-pointer transition-colors hover:text-white">{tag}</button>
+      ))}
+    </div>
+
+    <div id="projects-grid" class="mt-8 grid gap-6 sm:grid-cols-2 fade-in fade-in-delay-3">
       {projects.map(project => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          tags={project.data.tags}
-          href={project.data.github || project.data.url}
-        />
+        <div data-tags={JSON.stringify(project.data.tags)}>
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.tags}
+            href={project.data.github || project.data.url}
+          />
+        </div>
       ))}
     </div>
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll('.tag-filter');
+  const cards = document.querySelectorAll('#projects-grid > div');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.getAttribute('data-tag');
+
+      buttons.forEach(b => {
+        b.classList.remove('text-[--color-accent]', 'border-[--color-accent]/30');
+        b.classList.add('text-[--color-muted]');
+      });
+      btn.classList.add('text-[--color-accent]', 'border-[--color-accent]/30');
+      btn.classList.remove('text-[--color-muted]');
+
+      cards.forEach(card => {
+        if (tag === 'all') {
+          (card as HTMLElement).style.display = '';
+        } else {
+          const tags = JSON.parse(card.getAttribute('data-tags') || '[]');
+          (card as HTMLElement).style.display = tags.includes(tag) ? '' : 'none';
+        }
+      });
+    });
+  });
+</script>

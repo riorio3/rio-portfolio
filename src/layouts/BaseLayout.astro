@@ -2,9 +2,11 @@
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description = 'Rio Zelaya — Developer, builder, thinker.' } = Astro.props;
+const { title, description = 'Rio Zelaya — Developer, builder, thinker.', ogImage } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 import '../styles/global.css';
 ---
@@ -15,10 +17,24 @@ import '../styles/global.css';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:site_name" content="Rio Zelaya" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Rio Zelaya Blog" href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -26,5 +42,19 @@ import '../styles/global.css';
   </head>
   <body class="min-h-screen antialiased">
     <slot />
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      document.querySelectorAll('.scroll-fade').forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
