@@ -1,7 +1,8 @@
 ---
 ---
 
-<div class="fixed top-0 left-0 right-0 z-[999] flex justify-center pt-5 px-4">
+<div class="nav-shield"></div>
+<div class="fixed top-0 left-0 right-0 z-[9999] flex justify-center pt-5 px-4" style="isolation: isolate;">
   <nav class="nav-bar">
     <a href="/" class="nav-logo-wrapper">
       <span class="nav-logo-border"></span>
@@ -12,6 +13,17 @@
 </div>
 
 <style>
+  .nav-shield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5rem;
+    background: linear-gradient(to bottom, #0a0a0a 60%, transparent);
+    z-index: 9998;
+    pointer-events: none;
+  }
+
   @keyframes liquid-gold {
     0% {
       background-position: 0% 50%;
