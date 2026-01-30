@@ -1,58 +1,133 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import BlogPostCard from '../components/BlogPostCard.astro';
+import GlassPanel from '../components/GlassPanel.astro';
 import Footer from '../components/Footer.astro';
 
-const recentProjects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
-const recentPosts = (await getCollection('blog'))
-  .filter(p => !p.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const projects = [
+  {
+    title: 'ComplaintChain',
+    description: '21,000+ CFPB crypto complaints visualized against BTC price and regulatory actions.',
+    href: 'https://github.com/riorio3/complaintchain',
+    icon: '⛓',
+    size: 'lg' as const,
+  },
+  {
+    title: 'PatentRadar',
+    description: 'iOS app for discovering and licensing government patents for commercialization.',
+    href: 'https://github.com/riorio3/PatentRadar',
+    icon: '📡',
+    size: 'md' as const,
+  },
+  {
+    title: 'OpenZZ',
+    description: 'Personal Bloomberg terminal — OpenBB-powered financial dashboard.',
+    href: 'https://github.com/riorio3/OpenZZ',
+    icon: '📊',
+    size: 'md' as const,
+  },
+  {
+    title: 'BioMimicry',
+    description: 'Biomimicry-inspired 3D design creation tool.',
+    href: 'https://github.com/riorio3/BioMimicry',
+    icon: '🧬',
+    size: 'md' as const,
+  },
+  {
+    title: 'Fibonacci',
+    description: 'AR Fibonacci pattern recognition for iOS — see math in the real world.',
+    href: 'https://github.com/riorio3/Fibonacci',
+    icon: '🌀',
+    size: 'md' as const,
+  },
+  {
+    title: 'Trade Tracker',
+    description: 'Track and analyze your trades in one place.',
+    href: 'https://github.com/riorio3/Trade-Tracker',
+    icon: '📈',
+    size: 'sm' as const,
+  },
+  {
+    title: 'NewHorizon',
+    description: 'Uncovering the unknown.',
+    href: 'https://github.com/riorio3/NewHorizon',
+    icon: '🔭',
+    size: 'sm' as const,
+  },
+  {
+    title: 'Memecoin Visualized',
+    description: 'Visualizing the memecoin landscape.',
+    href: 'https://github.com/riorio3/memecoin-vizualized',
+    icon: '🪙',
+    size: 'sm' as const,
+  },
+];
 ---
 
 <BaseLayout title="Rio Zelaya">
   <Nav />
-  <Hero />
 
-  <section class="px-6 max-w-5xl mx-auto scroll-fade">
-    <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-bold text-white">Projects</h2>
-      <a href="/projects" class="text-sm text-[--color-accent] hover:underline">View all</a>
+  <!-- Hero -->
+  <section class="min-h-[70vh] flex items-center justify-center px-6 pt-24">
+    <div class="max-w-2xl text-center">
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-white fade-in">
+        Rio Zelaya
+      </h1>
+      <p class="mt-6 text-lg text-[#737373] leading-relaxed fade-in fade-in-delay-1">
+        I build things and figure stuff out along the way.
+      </p>
     </div>
-    <div class="mt-8 grid gap-6 sm:grid-cols-2">
-      {recentProjects.map(project => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          tags={project.data.tags}
-          href={project.data.github || project.data.url}
-        />
+  </section>
+
+  <!-- Projects — Floating glass panels -->
+  <section class="px-4 sm:px-6 max-w-6xl mx-auto pb-20">
+    <div class="panels-grid">
+      {projects.map((project, i) => (
+        <div class="scroll-fade" style={`transition-delay: ${i * 0.06}s`}>
+          <GlassPanel
+            title={project.title}
+            description={project.description}
+            href={project.href}
+            icon={project.icon}
+            size={project.size}
+          />
+        </div>
       ))}
     </div>
   </section>
 
-  {recentPosts.length > 0 && (
-    <section class="mt-24 px-6 max-w-3xl mx-auto scroll-fade">
-      <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-white">Latest Posts</h2>
-        <a href="/blog" class="text-sm text-[--color-accent] hover:underline">View all</a>
-      </div>
-      <div class="mt-8">
-        {recentPosts.map(post => (
-          <BlogPostCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            slug={post.id}
-          />
-        ))}
-      </div>
-    </section>
-  )}
+  <!-- Contact strip -->
+  <section class="px-6 max-w-3xl mx-auto text-center scroll-fade">
+    <p class="text-sm text-[#525252]">
+      <a href="https://github.com/riorio3" target="_blank" rel="noopener noreferrer" class="hover:text-[--color-gold-light] transition-colors">GitHub</a>
+      <span class="mx-3">·</span>
+      <a href="https://www.linkedin.com/in/riozelaya/" target="_blank" rel="noopener noreferrer" class="hover:text-[--color-gold-light] transition-colors">LinkedIn</a>
+      <span class="mx-3">·</span>
+      <a href="mailto:rioz3@protonmail.com" class="hover:text-[--color-gold-light] transition-colors">Email</a>
+    </p>
+  </section>
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .panels-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .panels-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .panels-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+  }
+</style>
