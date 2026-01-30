@@ -4,10 +4,14 @@
 <div class="nav-shield"></div>
 <div class="fixed top-0 left-0 right-0 z-[9999] flex justify-center pt-5 px-4" style="isolation: isolate;">
   <nav class="nav-bar">
-    <a href="#" class="nav-logo-wrapper" id="logo-link">
-      <span class="nav-logo-border"></span>
-      <span class="nav-logo-glow"></span>
-      <span class="nav-logo-content">RZ</span>
+    <a href="#" class="nav-logo-outer" id="logo-link">
+      <!-- Gold bezel ring -->
+      <span class="nav-bezel"></span>
+      <span class="nav-bezel-shine"></span>
+      <!-- Inner icon area -->
+      <span class="nav-logo-inner">
+        <span class="nav-logo-text">RZ</span>
+      </span>
     </a>
   </nav>
 </div>
@@ -24,165 +28,139 @@
     pointer-events: none;
   }
 
-  @keyframes liquid-gold {
-    0% {
-      background-position: 0% 50%;
-      filter: hue-rotate(0deg);
-    }
-    25% {
-      filter: hue-rotate(-5deg) brightness(1.1);
-    }
-    50% {
-      background-position: 100% 50%;
-      filter: hue-rotate(0deg);
-    }
-    75% {
-      filter: hue-rotate(5deg) brightness(1.1);
-    }
-    100% {
-      background-position: 0% 50%;
-      filter: hue-rotate(0deg);
-    }
+  @keyframes liquid-shine {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
-  @keyframes glow-pulse {
-    0%, 100% {
-      opacity: 0.4;
-    }
-    50% {
-      opacity: 0.7;
-    }
+  @keyframes bezel-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
   }
 
   .nav-bar {
     background: linear-gradient(145deg, #1a1a1a, #0e0e0e);
     border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 1.125rem;
-    padding: 0.4rem;
+    border-radius: 1.25rem;
+    padding: 0.5rem;
     box-shadow:
       0 4px 30px rgba(0, 0, 0, 0.6),
       inset 0 1px 0 rgba(255, 255, 255, 0.03);
   }
 
-  .nav-logo-wrapper {
+  .nav-logo-outer {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.875rem;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 1rem;
     text-decoration: none;
     transition: all 0.4s ease;
   }
 
-  .nav-logo-border {
+  /* The thick gold bezel — beveled 3D ring */
+  .nav-bezel {
     position: absolute;
     inset: 0;
-    border-radius: 0.875rem;
-    padding: 3.5px;
-    background: linear-gradient(
-      var(--angle, 130deg),
-      #5c3d0a,
-      #7a5a0a,
-      #a07618,
-      #c49a2c,
-      #ddb740,
-      #f0d060,
-      #ffe88a,
-      #fffbe0,
-      #ffe88a,
-      #f0d060,
-      #ddb740,
-      #c49a2c,
-      #a07618,
-      #7a5a0a,
-      #5c3d0a,
-      #7a5a0a,
-      #c49a2c,
-      #ffe88a
-    );
-    background-size: 400% 400%;
-    animation: liquid-gold 3s ease infinite;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    border-radius: 1rem;
+    background:
+      linear-gradient(
+        145deg,
+        #5c3d0a 0%,
+        #8b6914 15%,
+        #c49a2c 30%,
+        #e8c44a 45%,
+        #fffbe0 50%,
+        #e8c44a 55%,
+        #c49a2c 70%,
+        #8b6914 85%,
+        #5c3d0a 100%
+      );
+    box-shadow:
+      /* outer bevel — light top-left, dark bottom-right */
+      inset 2px 2px 3px rgba(255, 240, 180, 0.3),
+      inset -2px -2px 3px rgba(40, 25, 5, 0.6),
+      /* outer shadow for depth */
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      0 0 15px rgba(184, 134, 11, 0.15);
   }
 
-  .nav-logo-glow {
+  /* Animated shine sweep across the bezel */
+  .nav-bezel-shine {
     position: absolute;
-    inset: -6px;
+    inset: -2px;
     border-radius: 1.1rem;
-    background: linear-gradient(
-      130deg,
-      transparent 20%,
-      rgba(212, 160, 32, 0.15) 40%,
-      rgba(255, 232, 138, 0.1) 50%,
-      rgba(212, 160, 32, 0.15) 60%,
-      transparent 80%
-    );
-    background-size: 400% 400%;
-    animation:
-      liquid-gold 3s ease infinite,
-      glow-pulse 3s ease infinite;
-    filter: blur(8px);
+    overflow: hidden;
     pointer-events: none;
   }
 
-  .nav-logo-content {
-    position: relative;
-    z-index: 1;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
-    background: linear-gradient(
-      160deg,
-      #a07618,
-      #d4a020,
-      #f0d060,
-      #d4a020,
-      #a07618
-    );
-    background-size: 200% 200%;
-    animation: liquid-gold 3s ease infinite;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .nav-logo-wrapper::before {
+  .nav-bezel-shine::after {
     content: '';
     position: absolute;
-    inset: 0;
-    border-radius: 0.875rem;
-    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-    z-index: 0;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(255, 248, 220, 0.25) 40%,
+      rgba(255, 255, 255, 0.35) 42%,
+      rgba(255, 248, 220, 0.25) 44%,
+      transparent 50%,
+      transparent 100%
+    );
+    animation: liquid-shine 4s linear infinite;
   }
 
-  .nav-logo-wrapper:hover .nav-logo-border {
-    animation-duration: 1.5s;
-    padding: 4px;
+  /* Inner sunken area */
+  .nav-logo-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 0.6rem;
+    background: linear-gradient(145deg, #151515, #0c0c0c);
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.6),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.02),
+      0 1px 2px rgba(184, 134, 11, 0.1);
   }
 
-  .nav-logo-wrapper:hover .nav-logo-glow {
-    animation-duration: 1.5s;
-    inset: -10px;
-    filter: blur(12px);
-    opacity: 1;
+  .nav-logo-text {
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: #d4d4d4;
+    text-shadow: 0 0 6px rgba(184, 134, 11, 0.2);
   }
 
-  .nav-logo-wrapper:hover .nav-logo-content {
-    animation-duration: 1.5s;
+  /* Hover */
+  .nav-logo-outer:hover {
+    transform: scale(1.08);
   }
 
-  .nav-logo-wrapper:hover {
-    box-shadow: 0 0 30px rgba(184, 134, 11, 0.25);
-    transform: scale(1.05);
+  .nav-logo-outer:hover .nav-bezel {
+    box-shadow:
+      inset 2px 2px 3px rgba(255, 240, 180, 0.4),
+      inset -2px -2px 3px rgba(40, 25, 5, 0.6),
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      0 0 25px rgba(184, 134, 11, 0.25);
+  }
+
+  .nav-logo-outer:hover .nav-bezel-shine::after {
+    animation-duration: 2s;
+  }
+
+  .nav-logo-outer:hover .nav-logo-text {
+    color: #e5e5e5;
+    text-shadow: 0 0 10px rgba(184, 134, 11, 0.35);
   }
 </style>
 
