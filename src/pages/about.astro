@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="About — Rio Zelaya">
+  <Nav />
+  <main class="pt-32 pb-20 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold text-white fade-in">About Me</h1>
+    <div class="mt-8 space-y-6 text-[--color-muted] leading-relaxed fade-in fade-in-delay-1">
+      <p>
+        I'm Rio Zelaya — a developer who enjoys building for the web.
+        I'm interested in clean design, useful software, and learning in public.
+      </p>
+      <p>
+        This site is where I share my projects and write about things I'm exploring.
+      </p>
+      <h2 class="text-xl font-semibold text-white pt-4">Tech I work with</h2>
+      <div class="flex flex-wrap gap-2">
+        {['JavaScript', 'TypeScript', 'Python', 'Astro', 'Tailwind CSS', 'Node.js', 'Git'].map(skill => (
+          <span class="text-sm px-3 py-1.5 rounded-full glass text-[--color-text]">{skill}</span>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

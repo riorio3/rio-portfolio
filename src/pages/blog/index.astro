@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = (await getCollection('blog'))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Blog — Rio Zelaya">
+  <Nav />
+  <main class="pt-32 pb-20 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold text-white fade-in">Blog</h1>
+    <p class="mt-4 text-[--color-muted] fade-in fade-in-delay-1">Thoughts, tutorials, and things I'm learning.</p>
+    <div class="mt-12 fade-in fade-in-delay-2">
+      {posts.map(post => (
+        <BlogPostCard
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          slug={post.id}
+        />
+      ))}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

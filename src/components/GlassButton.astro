@@ -1,0 +1,20 @@
+---
+interface Props {
+  href: string;
+  variant?: 'default' | 'accent';
+}
+
+const { href, variant = 'default' } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'glass inline-block px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105',
+    variant === 'accent'
+      ? 'bg-[--color-accent]/10 text-[--color-accent] border-[--color-accent]/20 hover:bg-[--color-accent]/20'
+      : 'text-[--color-text] hover:bg-white/10',
+  ]}
+>
+  <slot />
+</a>

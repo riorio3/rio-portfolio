@@ -1,0 +1,33 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="glass fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="text-lg font-semibold text-white hover:text-[--color-accent] transition-colors">
+      Rio Zelaya
+    </a>
+    <div class="flex gap-6">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'text-sm transition-colors',
+            currentPath === link.href
+              ? 'text-[--color-accent]'
+              : 'text-[--color-muted] hover:text-white',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatted = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={`${post.data.title} — Rio Zelaya`} description={post.data.description}>
+  <Nav />
+  <main class="pt-32 pb-20 px-6 max-w-3xl mx-auto">
+    <article>
+      <header class="fade-in">
+        <time class="text-sm text-[--color-muted]">{formatted}</time>
+        <h1 class="mt-2 text-4xl font-bold text-white">{post.data.title}</h1>
+        {post.data.tags.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2">
+            {post.data.tags.map(tag => (
+              <span class="text-xs px-2.5 py-1 rounded-full bg-white/5 text-[--color-muted]">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+      <div class="mt-10 max-w-none text-[--color-muted] leading-relaxed [&_h1]:text-white [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mt-8 [&_h1]:mb-4 [&_h2]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-6 [&_h2]:mb-3 [&_a]:text-[--color-accent] [&_strong]:text-white [&_p]:mb-4 fade-in fade-in-delay-1">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

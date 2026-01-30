@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tags?: string[];
+  href?: string;
+}
+
+const { title, description, tags = [], href } = Astro.props;
+---
+
+<a href={href} class="glass rounded-2xl p-6 block transition-all duration-300 hover:scale-[1.02] hover:bg-white/[0.08] group">
+  <h3 class="text-lg font-semibold text-white group-hover:text-[--color-accent] transition-colors">
+    {title}
+  </h3>
+  <p class="mt-2 text-sm text-[--color-muted] leading-relaxed">{description}</p>
+  {tags.length > 0 && (
+    <div class="mt-4 flex flex-wrap gap-2">
+      {tags.map(tag => (
+        <span class="text-xs px-2.5 py-1 rounded-full bg-white/5 text-[--color-muted]">{tag}</span>
+      ))}
+    </div>
+  )}
+</a>
