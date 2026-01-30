@@ -5,6 +5,9 @@
   --color-text: #e5e5e5;
   --color-muted: #a3a3a3;
   --color-accent: #60a5fa;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e4c76b;
+  --color-gold-dark: #8a6d2b;
   --color-glass: rgba(255, 255, 255, 0.05);
   --color-glass-border: rgba(255, 255, 255, 0.1);
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
