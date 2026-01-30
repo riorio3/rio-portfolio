@@ -3,11 +3,12 @@ interface Props {
   title: string;
   description: string;
   href: string;
-  icon?: string;
   size?: 'sm' | 'md' | 'lg';
 }
 
-const { title, description, href, icon = '◆', size = 'md' } = Astro.props;
+const { title, description, href, size = 'md' } = Astro.props;
+
+const binary = title.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
 
 const sizeClasses = {
   sm: 'col-span-1 row-span-1',
@@ -19,7 +20,7 @@ const sizeClasses = {
 <a href={href} target="_blank" rel="noopener noreferrer" class:list={['glass-panel group', sizeClasses[size]]}>
   <div class="panel-glow"></div>
   <div class="panel-content">
-    <div class="panel-icon">{icon}</div>
+    <div class="panel-binary">{binary}</div>
     <h3 class="panel-title">{title}</h3>
     <p class="panel-desc">{description}</p>
     <span class="panel-peek">
@@ -82,15 +83,19 @@ const sizeClasses = {
     flex-direction: column;
   }
 
-  .panel-icon {
-    font-size: 1.5rem;
+  .panel-binary {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.05em;
+    color: #333;
     margin-bottom: 1rem;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
+    line-height: 1.4;
+    word-break: break-all;
+    transition: color 0.4s ease;
   }
 
-  .glass-panel:hover .panel-icon {
-    opacity: 1;
+  .glass-panel:hover .panel-binary {
+    color: rgba(184, 134, 11, 0.35);
   }
 
   .panel-title {

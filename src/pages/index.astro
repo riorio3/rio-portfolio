@@ -9,56 +9,48 @@ const projects = [
     title: 'ComplaintChain',
     description: '21,000+ CFPB crypto complaints visualized against BTC price and regulatory actions.',
     href: 'https://github.com/riorio3/complaintchain',
-    icon: '⛓',
     size: 'lg' as const,
   },
   {
     title: 'PatentRadar',
     description: 'iOS app for discovering and licensing government patents for commercialization.',
     href: 'https://github.com/riorio3/PatentRadar',
-    icon: '📡',
     size: 'md' as const,
   },
   {
     title: 'OpenZZ',
     description: 'Personal Bloomberg terminal — OpenBB-powered financial dashboard.',
     href: 'https://github.com/riorio3/OpenZZ',
-    icon: '📊',
     size: 'md' as const,
   },
   {
     title: 'BioMimicry',
     description: 'Biomimicry-inspired 3D design creation tool.',
     href: 'https://github.com/riorio3/BioMimicry',
-    icon: '🧬',
     size: 'md' as const,
   },
   {
     title: 'Fibonacci',
     description: 'AR Fibonacci pattern recognition for iOS — see math in the real world.',
     href: 'https://github.com/riorio3/Fibonacci',
-    icon: '🌀',
     size: 'md' as const,
   },
   {
     title: 'Trade Tracker',
     description: 'Track and analyze your trades in one place.',
     href: 'https://github.com/riorio3/Trade-Tracker',
-    icon: '📈',
     size: 'sm' as const,
   },
   {
     title: 'NewHorizon',
     description: 'Uncovering the unknown.',
     href: 'https://github.com/riorio3/NewHorizon',
-    icon: '🔭',
     size: 'sm' as const,
   },
   {
     title: 'Memecoin Visualized',
     description: 'Visualizing the memecoin landscape.',
     href: 'https://github.com/riorio3/memecoin-vizualized',
-    icon: '🪙',
     size: 'sm' as const,
   },
 ];
@@ -68,7 +60,7 @@ const projects = [
   <Nav />
 
   <!-- Hero -->
-  <section class="min-h-[70vh] flex items-center justify-center px-6 pt-24">
+  <section class="flex items-center justify-center px-6 pt-28 pb-16">
     <div class="max-w-2xl text-center">
       <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-white fade-in">
         Rio Zelaya
@@ -88,7 +80,6 @@ const projects = [
             title={project.title}
             description={project.description}
             href={project.href}
-            icon={project.icon}
             size={project.size}
           />
         </div>
@@ -100,9 +91,9 @@ const projects = [
   <section class="px-6 max-w-3xl mx-auto text-center scroll-fade">
     <p class="text-sm text-[#525252]">
       <a href="https://github.com/riorio3" target="_blank" rel="noopener noreferrer" class="hover:text-[--color-gold-light] transition-colors">GitHub</a>
-      <span class="mx-3">·</span>
+      <span class="mx-3">&middot;</span>
       <a href="https://www.linkedin.com/in/riozelaya/" target="_blank" rel="noopener noreferrer" class="hover:text-[--color-gold-light] transition-colors">LinkedIn</a>
-      <span class="mx-3">·</span>
+      <span class="mx-3">&middot;</span>
       <a href="mailto:rioz3@protonmail.com" class="hover:text-[--color-gold-light] transition-colors">Email</a>
     </p>
   </section>
