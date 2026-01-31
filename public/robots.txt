@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://riozelaya.com/sitemap-index.xml
