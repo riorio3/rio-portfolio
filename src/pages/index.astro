@@ -10,48 +10,56 @@ const projects = [
     description: '21,000+ CFPB crypto complaints visualized against BTC price and regulatory actions.',
     href: 'https://complaintsignal.com/',
     size: 'lg' as const,
+    comingSoon: false,
   },
   {
     title: 'PatentRadar',
     description: 'Search and analyze 600+ NASA patents available for licensing and commercialization.',
     href: 'https://patentradar.app/',
     size: 'md' as const,
+    comingSoon: false,
   },
   {
     title: 'OpenZZ',
     description: 'Personal Bloomberg terminal — OpenBB-powered financial dashboard.',
-    href: 'https://github.com/riorio3/OpenZZ',
+    href: '#',
     size: 'md' as const,
+    comingSoon: true,
   },
   {
     title: 'BioMimicry',
     description: 'Biomimicry-inspired 3D design creation tool.',
-    href: 'https://github.com/riorio3/BioMimicry',
+    href: '#',
     size: 'md' as const,
+    comingSoon: true,
   },
   {
     title: 'Fibonacci',
     description: 'AR Fibonacci pattern recognition for iOS — see math in the real world.',
-    href: 'https://github.com/riorio3/Fibonacci',
+    href: '#',
     size: 'md' as const,
+    comingSoon: true,
   },
   {
     title: 'Trade Tracker',
     description: 'Track and analyze your trades in one place.',
-    href: 'https://github.com/riorio3/Trade-Tracker',
+    href: '#',
     size: 'sm' as const,
+    comingSoon: true,
   },
   {
     title: 'NewHorizon',
     description: 'Uncovering the unknown.',
-    href: 'https://github.com/riorio3/NewHorizon',
+    href: '#',
     size: 'sm' as const,
+    comingSoon: true,
   },
   {
     title: 'Memecoin Visualized',
     description: 'Visualizing the memecoin landscape.',
-    href: 'https://github.com/riorio3/memecoin-vizualized',
+    href: '#',
     size: 'sm' as const,
+    comingSoon: true,
   },
 ];
 ---
@@ -66,7 +74,7 @@ const projects = [
         Rio Zelaya
       </h1>
       <p class="mt-6 text-lg text-[#888888] leading-relaxed fade-in fade-in-delay-1">
-        I build things and figure stuff out along the way.
+        I build things and figure it out along the way.
       </p>
     </div>
   </section>
@@ -81,6 +89,7 @@ const projects = [
             description={project.description}
             href={project.href}
             size={project.size}
+            comingSoon={project.comingSoon}
           />
         </div>
       ))}
@@ -88,9 +97,265 @@ const projects = [
   </section>
 
   <Footer />
+
+  <!-- Coming Soon Overlay -->
+  <div id="coming-soon-overlay" class="coming-soon-overlay">
+    <button id="coming-soon-close" class="coming-soon-close" aria-label="Close">&times;</button>
+    <canvas id="coming-soon-canvas"></canvas>
+    <div class="coming-soon-content">
+      <div class="coming-soon-glitch" data-text="COMING SOON">COMING SOON</div>
+      <p id="coming-soon-project" class="coming-soon-project-name"></p>
+      <div class="coming-soon-line"></div>
+      <p class="coming-soon-sub">Currently under construction</p>
+    </div>
+  </div>
 </BaseLayout>
 
+<script>
+  const overlay = document.getElementById('coming-soon-overlay')!;
+  const closeBtn = document.getElementById('coming-soon-close')!;
+  const projectName = document.getElementById('coming-soon-project')!;
+  const canvas = document.getElementById('coming-soon-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  let animId: number;
+  let particles: { x: number; y: number; vx: number; vy: number; size: number; alpha: number; color: string }[] = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function initParticles() {
+    particles = [];
+    const count = Math.min(80, Math.floor(window.innerWidth / 15));
+    const colors = ['59,130,246', '147,51,234', '236,72,153', '34,211,238'];
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.5 + 0.1,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(${p.color}, ${0.06 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    animId = requestAnimationFrame(drawParticles);
+  }
+
+  function openOverlay(name: string) {
+    projectName.textContent = name;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    resizeCanvas();
+    initParticles();
+    drawParticles();
+  }
+
+  function closeOverlay() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    cancelAnimationFrame(animId);
+  }
+
+  document.querySelectorAll('.coming-soon-trigger').forEach(el => {
+    el.addEventListener('click', () => {
+      const name = (el as HTMLElement).dataset.projectName || '';
+      openOverlay(name);
+    });
+    el.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter') {
+        const name = (el as HTMLElement).dataset.projectName || '';
+        openOverlay(name);
+      }
+    });
+  });
+
+  closeBtn.addEventListener('click', closeOverlay);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeOverlay();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeOverlay();
+  });
+  window.addEventListener('resize', () => {
+    if (overlay.classList.contains('active')) resizeCanvas();
+  });
+</script>
+
 <style>
+  .coming-soon-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .coming-soon-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .coming-soon-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .coming-soon-close:hover {
+    color: white;
+  }
+
+  #coming-soon-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .coming-soon-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .coming-soon-glitch {
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: white;
+    position: relative;
+    animation: glitch-skew 4s infinite linear alternate-reverse;
+  }
+
+  .coming-soon-glitch::before,
+  .coming-soon-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .coming-soon-glitch::before {
+    color: #60a5fa;
+    animation: glitch-1 3s infinite linear alternate-reverse;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  }
+
+  .coming-soon-glitch::after {
+    color: #ec4899;
+    animation: glitch-2 2.5s infinite linear alternate-reverse;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  }
+
+  .coming-soon-project-name {
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.05em;
+  }
+
+  .coming-soon-line {
+    width: 60px;
+    height: 2px;
+    margin: 1.5rem auto;
+    background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.6), rgba(147, 51, 234, 0.6), transparent);
+    animation: line-pulse 2s ease-in-out infinite;
+  }
+
+  .coming-soon-sub {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  @keyframes glitch-1 {
+    0%, 90% { transform: translate(0); }
+    91% { transform: translate(-2px, -1px); }
+    93% { transform: translate(2px, 1px); }
+    95% { transform: translate(-1px, 2px); }
+    97% { transform: translate(1px, -1px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes glitch-2 {
+    0%, 88% { transform: translate(0); }
+    89% { transform: translate(2px, 1px); }
+    92% { transform: translate(-2px, -1px); }
+    94% { transform: translate(1px, -2px); }
+    96% { transform: translate(-1px, 1px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes glitch-skew {
+    0%, 95% { transform: skew(0deg); }
+    96% { transform: skew(0.5deg); }
+    97% { transform: skew(-0.3deg); }
+    98% { transform: skew(0.4deg); }
+    99% { transform: skew(-0.2deg); }
+    100% { transform: skew(0deg); }
+  }
+
+  @keyframes line-pulse {
+    0%, 100% { opacity: 0.4; width: 60px; }
+    50% { opacity: 1; width: 100px; }
+  }
+
   .panels-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);

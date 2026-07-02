@@ -4,9 +4,10 @@ interface Props {
   description: string;
   href: string;
   size?: 'sm' | 'md' | 'lg';
+  comingSoon?: boolean;
 }
 
-const { title, description, href, size = 'md' } = Astro.props;
+const { title, description, href, size = 'md', comingSoon = false } = Astro.props;
 
 const binary = title.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
 
@@ -17,15 +18,34 @@ const sizeClasses = {
 };
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class:list={['glass-panel group', sizeClasses[size]]} data-tilt>
-  <div class="panel-glow"></div>
-  <div class="panel-spotlight"></div>
-  <div class="panel-content">
-    <div class="panel-binary">{binary}</div>
-    <h3 class="panel-title">{title}</h3>
-    <p class="panel-desc">{description}</p>
+{comingSoon ? (
+  <div
+    class:list={['glass-panel group coming-soon-trigger', sizeClasses[size]]}
+    data-tilt
+    data-project-name={title}
+    role="button"
+    tabindex="0"
+  >
+    <div class="panel-glow"></div>
+    <div class="panel-spotlight"></div>
+    <div class="panel-content">
+      <div class="panel-binary">{binary}</div>
+      <h3 class="panel-title">{title}</h3>
+      <p class="panel-desc">{description}</p>
+    </div>
+    <div class="coming-soon-badge">Soon</div>
   </div>
-</a>
+) : (
+  <a href={href} target="_blank" rel="noopener noreferrer" class:list={['glass-panel group', sizeClasses[size]]} data-tilt>
+    <div class="panel-glow"></div>
+    <div class="panel-spotlight"></div>
+    <div class="panel-content">
+      <div class="panel-binary">{binary}</div>
+      <h3 class="panel-title">{title}</h3>
+      <p class="panel-desc">{description}</p>
+    </div>
+  </a>
+)}
 
 <style>
   .glass-panel {
@@ -128,6 +148,25 @@ const sizeClasses = {
     color: #888888;
     line-height: 1.6;
     flex: 1;
+  }
+
+  .coming-soon-trigger {
+    cursor: pointer;
+  }
+
+  .coming-soon-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    padding: 0.2rem 0.6rem;
+    z-index: 2;
   }
 
 </style>
