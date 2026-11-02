@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="glitch-common.css"><style>
+body { background:#ecebe6; color:#0b0b0b; }
+.grain { mix-blend-mode:multiply; opacity:.35; } .grain2 { mix-blend-mode:multiply; opacity:.12; }
+.crop i { position:absolute; background:#0b0b0b; }
+.lbl { position:absolute; font-size:17px; letter-spacing:.04em; color:#0b0b0b; }
+.n { left:48px; top:262px; font-size:212px; letter-spacing:-0.065em; color:#0b0b0b; }
+.n .reg { color:#2563eb; transform: translate(6px, 2px); mix-blend-mode:multiply; opacity:.85; clip-path:polygon(-20% -40%,120% -40%,120% 18%,-20% 18%,-20% 27%,120% 27%,120% 140%,-20% 140%); }
+.n .base { mix-blend-mode:multiply; }
+.reg-mark { position:absolute; right:74px; top:250px; width:44px; height:44px; }
+.rule { position:absolute; left:56px; right:56px; top:270px; height:1.5px; background:#0b0b0b; }
+</style></head><body>
+<div class="crop">
+ <i style="left:24px;top:40px;width:22px;height:1.5px"></i><i style="left:40px;top:24px;width:1.5px;height:22px"></i>
+ <i style="right:24px;top:40px;width:22px;height:1.5px"></i><i style="right:40px;top:24px;width:1.5px;height:22px"></i>
+ <i style="left:24px;bottom:40px;width:22px;height:1.5px"></i><i style="left:40px;bottom:24px;width:1.5px;height:22px"></i>
+ <i style="right:24px;bottom:40px;width:22px;height:1.5px"></i><i style="right:40px;bottom:24px;width:1.5px;height:22px"></i>
+</div>
+<div class="lbl mono" style="left:58px;top:62px">riozelaya.com</div>
+<div class="lbl mono" style="right:58px;top:62px">RZ</div>
+
+<div class="rule"></div>
+<svg class="reg-mark" viewBox="0 0 44 44"><circle cx="22" cy="22" r="12" fill="none" stroke="#0b0b0b" stroke-width="1.5"/><path d="M22 0v44M0 22h44" stroke="#0b0b0b" stroke-width="1.5"/></svg>
+<div class="n"><span class="reg">Rio Zelaya</span><span class="base">Rio Zelaya</span><span style="position:static;visibility:hidden">Rio Zelaya</span></div>
+<svg class="grain" width="1200" height="630"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" seed="11" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg><svg class="grain2" width="1200" height="630"><filter id="g2"><feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="4"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g2)"/></svg>
+<script>document.body.dataset.ready=1</script></body></html>

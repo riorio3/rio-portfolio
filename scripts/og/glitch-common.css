@@ -1,0 +1,11 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1200px; height:630px; overflow:hidden; }
+body { font-family:'Inter', sans-serif; -webkit-font-smoothing:antialiased; position:relative; background:#0a0a0a; color:#f2f2f0; }
+.mono { font-family:'IBM Plex Mono', monospace; font-weight:500; }
+.grain { position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.16; z-index:1; }
+.grain2 { position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; opacity:.05; z-index:60; }
+.n { position:absolute; white-space:nowrap; font-weight:800; line-height:.8; }
+.n span { position:absolute; left:0; top:0; }
+.n { height:1em; line-height:1em; } .n span { height:1em; }
+
+.n { z-index:10; }
