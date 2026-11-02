@@ -16,9 +16,9 @@ const formatted = date.toLocaleDateString('en-US', {
 ---
 
 <a href={`/blog/${slug}/`} class="block py-6 border-b border-white/5 group transition-colors hover:border-white/15">
-  <time class="text-xs text-[--color-muted]">{formatted}</time>
-  <h3 class="mt-1 text-lg font-medium text-white group-hover:text-[--color-accent] transition-colors">
+  <time class="text-xs text-[var(--color-muted)]">{formatted}</time>
+  <h3 class="mt-1 text-lg font-medium text-white group-hover:text-[var(--color-accent)] transition-colors">
     {title}
   </h3>
-  <p class="mt-1 text-sm text-[--color-muted] leading-relaxed">{description}</p>
+  <p class="mt-1 text-sm text-[var(--color-muted)] leading-relaxed">{description}</p>
 </a>

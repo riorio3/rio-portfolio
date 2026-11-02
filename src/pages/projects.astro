@@ -14,12 +14,12 @@ const allTags = [...new Set(projects.flatMap(p => p.data.tags))].sort();
   <Nav />
   <main class="pt-32 pb-20 px-6 max-w-5xl mx-auto">
     <h1 class="text-4xl font-bold text-white fade-in">Projects</h1>
-    <p class="mt-4 text-[--color-muted] fade-in fade-in-delay-1">Things I've built.</p>
+    <p class="mt-4 text-[var(--color-muted)] fade-in fade-in-delay-1">Things I've built.</p>
 
     <div class="mt-8 flex flex-wrap gap-2 fade-in fade-in-delay-2">
-      <button data-tag="all" class="tag-filter text-xs px-3 py-1.5 rounded-full glass text-[--color-accent] border-[--color-accent]/30 cursor-pointer transition-colors">All</button>
+      <button data-tag="all" class="tag-filter text-xs px-3 py-1.5 rounded-full glass text-[var(--color-accent)] border-[var(--color-accent)]/30 cursor-pointer transition-colors">All</button>
       {allTags.map(tag => (
-        <button data-tag={tag} class="tag-filter text-xs px-3 py-1.5 rounded-full glass text-[--color-muted] cursor-pointer transition-colors hover:text-white">{tag}</button>
+        <button data-tag={tag} class="tag-filter text-xs px-3 py-1.5 rounded-full glass text-[var(--color-muted)] cursor-pointer transition-colors hover:text-white">{tag}</button>
       ))}
     </div>
 
@@ -50,11 +50,11 @@ const allTags = [...new Set(projects.flatMap(p => p.data.tags))].sort();
       const tag = btn.getAttribute('data-tag');
 
       buttons.forEach(b => {
-        b.classList.remove('text-[--color-accent]', 'border-[--color-accent]/30');
-        b.classList.add('text-[--color-muted]');
+        b.classList.remove('text-[var(--color-accent)]', 'border-[var(--color-accent)]/30');
+        b.classList.add('text-[var(--color-muted)]');
       });
-      btn.classList.add('text-[--color-accent]', 'border-[--color-accent]/30');
-      btn.classList.remove('text-[--color-muted]');
+      btn.classList.add('text-[var(--color-accent)]', 'border-[var(--color-accent)]/30');
+      btn.classList.remove('text-[var(--color-muted)]');
 
       cards.forEach(card => {
         if (tag === 'all') {
