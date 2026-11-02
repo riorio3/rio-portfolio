@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Footer from '../components/Footer.astro';
+import ComingSoonOverlay from '../components/ComingSoonOverlay.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const allTags = [...new Set(projects.flatMap(p => p.data.tags))].sort();
@@ -29,13 +30,15 @@ const allTags = [...new Set(projects.flatMap(p => p.data.tags))].sort();
             title={project.data.title}
             description={project.data.description}
             tags={project.data.tags}
-            href={project.data.github || project.data.url}
+            href={project.data.url ?? project.data.github}
+            comingSoon={project.data.status === 'coming-soon'}
           />
         </div>
       ))}
     </div>
   </main>
   <Footer />
+  <ComingSoonOverlay />
 </BaseLayout>
 
 <script>

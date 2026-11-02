@@ -4,12 +4,28 @@ interface Props {
   description: string;
   tags?: string[];
   href?: string;
+  comingSoon?: boolean;
 }
 
-const { title, description, tags = [], href } = Astro.props;
+const { title, description, tags = [], href, comingSoon = false } = Astro.props;
+const Tag = comingSoon ? 'div' : 'a';
+const attrs = comingSoon
+  ? { role: 'button', tabindex: 0, 'data-project-name': title }
+  : { href };
 ---
 
-<a href={href} class="glass rounded-2xl p-6 block transition-all duration-300 hover:scale-[1.02] hover:bg-white/[0.08] group">
+<Tag
+  {...attrs}
+  class:list={[
+    'glass rounded-2xl p-6 block relative transition-all duration-300 hover:scale-[1.02] hover:bg-white/[0.08] group',
+    comingSoon && 'coming-soon-trigger cursor-pointer',
+  ]}
+>
+  {comingSoon && (
+    <span class="absolute top-4 right-4 text-[0.65rem] font-semibold uppercase tracking-[0.15em] px-2.5 py-1 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20">
+      Soon
+    </span>
+  )}
   <h3 class="text-lg font-semibold text-white group-hover:text-[--color-accent] transition-colors">
     {title}
   </h3>
@@ -21,4 +37,4 @@ const { title, description, tags = [], href } = Astro.props;
       ))}
     </div>
   )}
-</a>
+</Tag>

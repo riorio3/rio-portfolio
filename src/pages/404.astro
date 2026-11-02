@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import GlassButton from '../components/GlassButton.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Page not found — Rio Zelaya"
+  description="This page doesn't exist. Head back to Rio Zelaya's homepage, blog, or projects."
+  noindex
+>
+  <Nav />
+  <main class="min-h-[70vh] flex items-center justify-center px-6 pt-32 pb-10">
+    <div class="max-w-xl text-center">
+      <p class="text-sm font-medium tracking-[0.3em] text-[var(--color-accent)] fade-in">404</p>
+      <h1 class="mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-white fade-in fade-in-delay-1">
+        Page not found
+      </h1>
+      <p class="mt-6 text-lg text-[var(--color-muted)] leading-relaxed fade-in fade-in-delay-2">
+        This page doesn't exist, or it moved. Try one of these instead.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4 fade-in fade-in-delay-3">
+        <GlassButton href="/" variant="accent">Home</GlassButton>
+        <GlassButton href="/blog/">Blog</GlassButton>
+        <GlassButton href="/projects/">Projects</GlassButton>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

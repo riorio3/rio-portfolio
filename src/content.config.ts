@@ -20,6 +20,10 @@ const projects = defineCollection({
     tags: z.array(z.string()).default([]),
     url: z.string().optional(),
     github: z.string().optional(),
+    // 'coming-soon' projects render without a link and open the "coming soon" overlay.
+    status: z.enum(['live', 'coming-soon']).default('live'),
+    // Panel size on the homepage grid ('lg' spans two columns).
+    size: z.enum(['sm', 'md', 'lg']).default('md'),
     order: z.number().default(0),
   }),
 });
