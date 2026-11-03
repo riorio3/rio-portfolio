@@ -11,7 +11,8 @@ const out = process.argv[2] ?? path.join(dir, '..', '..', 'public', 'og-default.
 
 const browser = await chromium.launch({
   executablePath: process.env.CHROME || '/usr/bin/google-chrome',
-  args: ['--no-sandbox', '--font-render-hinting=none'],
+  chromiumSandbox: true, // keep Chrome's sandbox on (Playwright adds --no-sandbox unless this is true)
+  args: ['--font-render-hinting=none'],
 });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 await page.goto(pathToFileURL(path.join(dir, 'og-default.html')).href);
